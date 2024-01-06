@@ -10,7 +10,7 @@ const ProductCardContainer = styled.div`
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
-  background-color: white;
+  background: linear-gradient(to right, #ff4500, #ff0000); 
 
   &:hover {
     transform: scale(1.05);
@@ -35,12 +35,13 @@ const ProductTitle = styled.h3`
 
 const ProductCategory = styled.p`
   margin: 5px 0;
-  color: #888;
+  color: white;
 `;
 
 const ProductPrice = styled.p`
   margin: 5px 0;
   font-weight: bold;
+  color: white;
 `;
 
 const ProductCard = ({ title, price, category, image, onAddToCart }) => {

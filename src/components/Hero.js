@@ -9,8 +9,8 @@ const HeroContainer = styled.div`
   justify-content: center;
   height: 80vh;
   text-align: center;
-  padding: 50px; 
-  margin: 20px; 
+  padding: 20px; /* Ajusté el padding */
+  margin: 20px;
 `;
 
 const TextContainer = styled.div`
@@ -19,18 +19,18 @@ const TextContainer = styled.div`
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
 `;
 
 const LogoImage = styled.img`
-  width: 120px; 
+  width: 80px; 
   height: auto;
   margin-bottom: 20px;
   transition: transform 0.3s ease-in-out;
 `;
 
 const HeroText = styled.h1`
-  font-size: 2rem;
+  font-size: 2.5rem; 
   color: #333;
   margin: 0;
   opacity: 0;
@@ -39,10 +39,10 @@ const HeroText = styled.h1`
 `;
 
 const Subtitle = styled.p`
-  font-size: 1.2rem;
+  font-size: 1rem; 
   color: #666;
-  max-width: 600px;
-  margin: 20px 0;
+  max-width: 300px; 
+  margin: 10px 0; 
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 1s ease-out 0.3s forwards;

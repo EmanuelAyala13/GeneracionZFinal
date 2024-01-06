@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import styled from 'styled-components'; 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import IniciarSesion from './pages/IniciarSesion';
@@ -10,16 +11,23 @@ import Hero from './components/Hero';
 import ProductList from './components/ProductList';
 import GlobalStyles from './styles/globalStyles';
 
+const ContentContainer = styled.div`
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 1200px; 
+  box-sizing: border-box;
+`;
+
 const HomePage = () => {
   return (
     <div className="App">
       <GlobalStyles />
       <Navbar />
-      <div className="content">
+      <ContentContainer>
         <Hero />
-        <h1>Bienvenido a la Página de Inicio</h1>
+        <h1>Bienvenido</h1>
         <ProductList />
-      </div>
+      </ContentContainer>
       <Footer />
     </div>
   );

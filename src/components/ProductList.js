@@ -26,14 +26,21 @@ const products = [
   { id: 12, title: 'Teclado Logitech G213 Prodigy', price: 59.99, category: 'Teclado', image: '/images/TecladoLogitechG213Prodigy.png' },
   { id: 13, title: 'Teclado Razer Gold Edition Mecánico', price: 129.99, category: 'Teclado', image: '/images/TecladoRazerGoldEditionMecanico.png' },
   { id: 14, title: 'Teclado Razer Huntsman Mini Mercury Linear Red', price: 139.99, category: 'Teclado', image: '/images/TecladoRazerHuntsmanMiniMercuryLinearRed.png' },
-  { id: 15, title: 'Mousepad Logitech G Powerplay', price: 99.99, category: 'Mousepad', image: '/images/MousepadLogitechGPowerplay.jpg' },
 ];
 
 const ProductList = () => {
   const [cartItems, setCartItems] = useState([]);
 
   const handleAddToCart = (product) => {
-    setCartItems([...cartItems, product]);
+    const existingProductIndex = cartItems.findIndex((item) => item.id === product.id);
+
+    if (existingProductIndex !== -1) {
+      const updatedCart = [...cartItems];
+      updatedCart[existingProductIndex].quantity += 1;
+      setCartItems(updatedCart);
+    } else {
+      setCartItems([...cartItems, { ...product, quantity: 1 }]);
+    }
   };
 
   return (
