@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import IniciarSesion from './pages/IniciarSesion';
+import Productos from './pages/Productos';
+import Contacto from './pages/Contacto';
+import Nosotros from './pages/Nosotros';
+import Hero from './components/Hero';
+import ProductList from './components/ProductList';
+import GlobalStyles from './styles/globalStyles';
 
-function App() {
+const HomePage = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <GlobalStyles />
+      <Navbar />
+      <div className="content">
+        <Hero />
+        <h1>Bienvenido a la Página de Inicio</h1>
+        <ProductList />
+      </div>
+      <Footer />
     </div>
   );
-}
+};
+
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/iniciar-sesion" element={<IniciarSesion />} />
+        <Route path="/productos" element={<Productos />} />
+        <Route path="/contacto" element={<Contacto />} />
+        <Route path="/nosotros" element={<Nosotros />} />
+      </Routes>
+    </Router>
+  );
+};
 
 export default App;
