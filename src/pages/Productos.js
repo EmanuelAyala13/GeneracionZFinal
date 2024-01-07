@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import ProductCard from '../components/ProductCard';
 import Cart from '../components/Cart';
 import './Productos.css';
 
-const ProductsPerPage = 3; 
+const ProductsPerPage = 3;
 
 const allProducts = [
   { id: 1, title: 'Mouse Logitech G203', price: 39.99, category: 'Mouse', image: '/images/MouseGamerLogitechG203.jpg' },
@@ -92,7 +91,6 @@ const Productos = () => {
           </div>
         )}
       </div>
-      <Footer />
     </div>
   );
 };

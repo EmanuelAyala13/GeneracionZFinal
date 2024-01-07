@@ -104,7 +104,7 @@ const QuantityButton = styled.div`
 `;
 
 const ClearCartButton = styled.button`
-  background-color: #ff0000; /* Puedes cambiar el color según tu preferencia */
+  background-color: #ff0000; 
   color: #fff;
   border: none;
   padding: 10px;
@@ -114,7 +114,7 @@ const ClearCartButton = styled.button`
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #cc0000; /* Cambia el color de fondo al pasar el mouse */
+    background-color: #cc0000; 
   }
 `;
 

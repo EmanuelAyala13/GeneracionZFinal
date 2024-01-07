@@ -1,8 +1,7 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import styled from 'styled-components';
-import './Nosotros.css'; 
+import './Nosotros.css';
 
 const Container = styled.div`
   max-width: 800px;
@@ -40,10 +39,6 @@ const EmailButton = styled.button`
   }
 `;
 
-const StyledFooter = styled(Footer)`
-  margin-top: 100px;
-`;
-
 const Nosotros = () => {
   const handleEmailButtonClick = () => {
     window.location.href = "mailto:24siemprels@gmail.com?subject=Consulta";
@@ -63,7 +58,6 @@ const Nosotros = () => {
         </Paragraph>
         <EmailButton onClick={handleEmailButtonClick}>Contactar por Correo</EmailButton>
       </Container>
-      <StyledFooter />
     </div>
   );
 };

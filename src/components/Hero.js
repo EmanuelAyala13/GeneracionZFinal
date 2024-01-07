@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import logo from '../images/logo.png';
 
 const HeroContainer = styled.div`
@@ -9,7 +9,7 @@ const HeroContainer = styled.div`
   justify-content: center;
   height: 80vh;
   text-align: center;
-  padding: 20px; /* Ajusté el padding */
+  padding: 20px;
   margin: 20px;
 `;
 
@@ -23,14 +23,14 @@ const TextContainer = styled.div`
 `;
 
 const LogoImage = styled.img`
-  width: 80px; 
+  width: 80px;
   height: auto;
   margin-bottom: 20px;
   transition: transform 0.3s ease-in-out;
 `;
 
 const HeroText = styled.h1`
-  font-size: 2.5rem; 
+  font-size: 2.5rem;
   color: #333;
   margin: 0;
   opacity: 0;
@@ -39,16 +39,16 @@ const HeroText = styled.h1`
 `;
 
 const Subtitle = styled.p`
-  font-size: 1rem; 
-  color: #666;
-  max-width: 300px; 
-  margin: 10px 0; 
+  font-size: 1.5rem;
+  color: red;
+  max-width: 300px;
+  margin: 10px 0;
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 1s ease-out 0.3s forwards;
 `;
 
-const fadeInUp = `
+const fadeInUp = css`
   @keyframes fadeInUp {
     from {
       opacity: 0;
@@ -57,6 +57,26 @@ const fadeInUp = `
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+`;
+
+const responsiveStyles = css`
+  @media screen and (max-width: 768px) {
+    ${HeroContainer} {
+      height: auto;
+    }
+
+    ${TextContainer} {
+      padding: 10px;
+    }
+
+    ${HeroText} {
+      font-size: 2rem;
+    }
+
+    ${Subtitle} {
+      font-size: 1.2rem;
     }
   }
 `;

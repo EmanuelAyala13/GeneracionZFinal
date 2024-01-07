@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Contacto.css';
@@ -63,7 +62,6 @@ const Contacto = () => {
           <button type="submit">Enviar</button>
         </form>
       </div>
-      <Footer />
       <ToastContainer />
     </div>
   );
