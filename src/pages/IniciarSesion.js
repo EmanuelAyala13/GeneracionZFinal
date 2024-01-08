@@ -11,15 +11,16 @@ const IniciarSesion = () => {
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [isLogin, setIsLogin] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem('isAuthenticated');
     if (isAuthenticated) {
-      navigate('/');
+      setIsLoggedIn(true);
     }
-  }, [navigate]);
+  }, []);
 
   const handleLogin = () => {
     if (isLogin) {
@@ -34,6 +35,7 @@ const IniciarSesion = () => {
           autoClose: 3000,
         });
         localStorage.setItem('isAuthenticated', 'true');
+        setIsLoggedIn(true);
         navigate('/');
       } else {
         toast.error('Correo o contraseña incorrectos', {
@@ -59,20 +61,30 @@ const IniciarSesion = () => {
           });
 
           localStorage.setItem('isAuthenticated', 'true');
+          setIsLoggedIn(true);
           navigate('/');
         }
       }
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    setIsLoggedIn(false);
+  };
+
   const toggleForm = () => {
-    setIsLogin(!isLogin);
+    if (isLoggedIn) {
+      handleLogout();
+    } else {
+      setIsLogin(!isLogin);
+    }
   };
 
   return (
     <div className="iniciar-sesion-container">
       <Navbar />
-      <h2>{isLogin ? 'Iniciar Sesión' : 'Registrarse'}</h2>
+      <h2>{isLoggedIn ? 'Cerrar Sesión' : isLogin ? 'Iniciar Sesión' : 'Registrarse'}</h2>
       <form>
         {isLogin ? (
           <>
@@ -89,7 +101,7 @@ const IniciarSesion = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
             <button type="button" className="login-button" onClick={handleLogin}>
-              Iniciar Sesión
+              {isLoggedIn ? 'Cerrar Sesión' : 'Iniciar Sesión'}
             </button>
           </>
         ) : (
@@ -116,7 +128,7 @@ const IniciarSesion = () => {
           </>
         )}
         <button type="button" onClick={toggleForm} className="toggle-button">
-          {isLogin ? 'Crear Cuenta' : 'Iniciar Sesión'}
+          {isLoggedIn ? 'Cerrar Sesión' : isLogin ? 'Crear Cuenta' : 'Iniciar Sesión'}
         </button>
       </form>
 
