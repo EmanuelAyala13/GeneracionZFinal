@@ -21,6 +21,14 @@ const Contacto = () => {
       return;
     }
 
+    if (!validateEmail(email)) {
+      toast.error('Por favor, introduce un correo electrónico válido', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+      });
+      return;
+    }
+
     localStorage.setItem('nombre', nombre);
     localStorage.setItem('apellido', apellido);
     localStorage.setItem('email', email);
@@ -37,12 +45,17 @@ const Contacto = () => {
     setAsunto('');
   };
 
+  const validateEmail = (email) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  };
+
   return (
     <div>
       <Navbar />
       <div className="contacto-container">
         <h2>Contacto</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <label>
             Nombre:
             <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} />

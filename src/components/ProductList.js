@@ -1,4 +1,3 @@
-// ProductList.js
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import ProductCard from './ProductCard';
@@ -32,12 +31,13 @@ const ProductList = () => {
   const [cartItems, setCartItems] = useState([]);
 
   const handleAddToCart = (product) => {
-    const existingProductIndex = cartItems.findIndex((item) => item.id === product.id);
+    const existingProduct = cartItems.find((item) => item.id === product.id);
 
-    if (existingProductIndex !== -1) {
-      const updatedCart = [...cartItems];
-      updatedCart[existingProductIndex].quantity += 1;
-      setCartItems(updatedCart);
+    if (existingProduct) {
+      const updatedCartItems = cartItems.map((item) =>
+        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+      );
+      setCartItems(updatedCartItems);
     } else {
       setCartItems([...cartItems, { ...product, quantity: 1 }]);
     }

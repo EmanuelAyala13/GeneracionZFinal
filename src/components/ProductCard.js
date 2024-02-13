@@ -12,6 +12,11 @@ const ProductCardContainer = styled.div`
   transition: transform 0.3s ease-in-out;
   background: linear-gradient(to right, #ff4500, #ff0000); 
 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Align bottom elements */
+  align-items: center; /* Align horizontally to center */
+
   &:hover {
     transform: scale(1.05);
   }
@@ -26,6 +31,9 @@ const ProductImage = styled.img`
 
 const ProductDetails = styled.div`
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const ProductTitle = styled.h3`
@@ -44,6 +52,21 @@ const ProductPrice = styled.p`
   color: white;
 `;
 
+const AddToCartButton = styled.button`
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+`;
+
 const ProductCard = ({ title, price, category, image, onAddToCart }) => {
   return (
     <ProductCardContainer>
@@ -52,7 +75,7 @@ const ProductCard = ({ title, price, category, image, onAddToCart }) => {
         <ProductTitle>{title}</ProductTitle>
         <ProductCategory>{category}</ProductCategory>
         <ProductPrice>${price.toFixed(2)}</ProductPrice>
-        <button onClick={onAddToCart}>Agregar al Carrito</button>
+        <AddToCartButton onClick={onAddToCart}>Agregar al Carrito</AddToCartButton>
       </ProductDetails>
     </ProductCardContainer>
   );

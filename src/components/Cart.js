@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,7 +8,7 @@ const CartIconContainer = styled.div`
   top: 10px;
   right: 20px;
   z-index: 1001;
-  background: linear-gradient(to right, #d9d9d9, #a6a6a6); 
+  background: linear-gradient(to right, #d9d9d9, #a6a6a6);
 `;
 
 const CartIcon = styled.span`
@@ -29,8 +29,8 @@ const CartContainer = styled.div`
   z-index: 1000;
   transition: right 0.3s ease-in-out;
   overflow-y: auto;
-  background: linear-gradient(to right, #ffd700, #ffa500); 
-  border-radius: 10px; 
+  background: linear-gradient(to right, #ffd700, #ffa500);
+  border-radius: 10px;
 `;
 
 const CartHeader = styled.div`
@@ -91,11 +91,11 @@ const QuantityButton = styled.div`
   background-color: #333;
   color: #fff;
   border: 1px solid #333;
-  padding: 3px 6px; 
+  padding: 3px 6px;
   cursor: pointer;
-  font-size: 12px; 
-  width: 20px; 
-  text-align: center; 
+  font-size: 12px;
+  width: 20px;
+  text-align: center;
   transition: background-color 0.3s;
 
   &:hover {
@@ -104,7 +104,7 @@ const QuantityButton = styled.div`
 `;
 
 const ClearCartButton = styled.button`
-  background-color: #ff0000; 
+  background-color: #ff0000;
   color: #fff;
   border: none;
   padding: 10px;
@@ -114,7 +114,7 @@ const ClearCartButton = styled.button`
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #cc0000; 
+    background-color: #cc0000;
   }
 `;
 
@@ -152,29 +152,58 @@ const RemoveButton = styled.button`
 
 const Cart = ({ cartItems, setCartItems }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartItemIds, setCartItemIds] = useState(new Set());
 
-  const toggleCart = () => {
-    setIsCartOpen(!isCartOpen);
-  };
+  useEffect(() => {
+    const storedCartItems = JSON.parse(localStorage.getItem('cartItems'));
+    if (storedCartItems && storedCartItems.length > 0) {
+      setCartItems(storedCartItems);
+      const ids = new Set(storedCartItems.map(item => item.id));
+      setCartItemIds(ids);
+    }
+  }, []);
 
-  const closeCart = () => {
-    setIsCartOpen(false);
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    const ids = new Set(cartItems.map(item => item.id));
+    setCartItemIds(ids);
+  }, [cartItems]);
+
+  const toggleCart = () => setIsCartOpen(!isCartOpen);
+  const closeCart = () => setIsCartOpen(false);
+
+  const addToCart = (product) => {
+    const existingItem = cartItems.find((item) => item.id === product.id);
+
+    if (existingItem) {
+      const updatedCartItems = cartItems.map((item) =>
+        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+      );
+      setCartItems(updatedCartItems);
+    } else {
+      setCartItems([...cartItems, { ...product, quantity: 1 }]);
+      setCartItemIds(new Set([...cartItemIds, product.id]));
+    }
+    toast.success('Producto agregado al carrito');
   };
 
   const removeFromCart = (productId) => {
     const updatedCart = cartItems.filter((item) => item.id !== productId);
     setCartItems(updatedCart);
+    setCartItemIds(new Set([...cartItemIds].filter(id => id !== productId)));
   };
 
   const updateQuantity = (productId, newQuantity) => {
-    const updatedCart = cartItems.map((item) => {
-      if (item.id === productId) {
-        return { ...item, quantity: newQuantity };
-      }
-      return item;
-    });
-
-    setCartItems(updatedCart);
+    if (newQuantity <= 0) {
+      removeFromCart(productId);
+    } else {
+      const updatedCart = cartItems.map((item) =>
+        item.id === productId ? { ...item, quantity: newQuantity } : item
+      );
+      setCartItems(updatedCart);
+      const updatedCartItemIds = new Set(updatedCart.map(item => item.id));
+      setCartItemIds(updatedCartItemIds);
+    }
   };
 
   const calculateTotal = () => {
@@ -182,6 +211,11 @@ const Cart = ({ cartItems, setCartItems }) => {
   };
 
   const savePurchase = () => {
+    if (cartItems.length === 0) {
+      toast.error('No hay productos en el carrito.');
+      return;
+    }
+
     const invoiceNumber = Math.floor(Math.random() * 1000000);
     const purchaseDetails = cartItems.map(
       (item) => `${item.title} cantidad: ${item.quantity} = $${(item.price * item.quantity).toFixed(2)}`
@@ -190,12 +224,13 @@ const Cart = ({ cartItems, setCartItems }) => {
     localStorage.setItem(`purchase_${invoiceNumber}`, JSON.stringify(purchaseDetails));
 
     setCartItems([]);
-
+    setCartItemIds(new Set());
     toast.success('Compra exitosa. Número de factura: ' + invoiceNumber);
   };
 
   const clearCart = () => {
     setCartItems([]);
+    setCartItemIds(new Set());
     toast.info('Carrito vaciado');
   };
 
@@ -214,8 +249,9 @@ const Cart = ({ cartItems, setCartItems }) => {
           <div className="panel panel-default">
             <div className="panel-body">
               <CartBody>
-                {cartItems.length > 0 ? (
-                  cartItems.map((item) => (
+                {Array.from(cartItemIds).map((id) => {
+                  const item = cartItems.find((item) => item.id === id);
+                  return (
                     <CustomCartItemDetails key={item.id}>
                       <img src={item.image} alt={item.title} />
                       <div>
@@ -234,10 +270,8 @@ const Cart = ({ cartItems, setCartItems }) => {
                       </div>
                       <RemoveButton onClick={() => removeFromCart(item.id)}>&times;</RemoveButton>
                     </CustomCartItemDetails>
-                  ))
-                ) : (
-                  <div className="alert alert-info">Carrito Vacío</div>
-                )}
+                  );
+                })}
               </CartBody>
               <CartTotal>Total: ${calculateTotal().toFixed(2)} USD</CartTotal>
               <CartButton onClick={savePurchase}>Comprar</CartButton>
