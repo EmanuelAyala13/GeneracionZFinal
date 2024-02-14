@@ -1,55 +1,48 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FaEnvelope, FaMapMarkerAlt, FaPhone, FaGithub } from 'react-icons/fa';
 
 const StyledFooter = styled.footer`
-  background-color: #333;
-  color: white;
-  padding: 40px;
+  background-color: #ffcc00;
+  color: #333;
+  padding: 10px;
   text-align: center;
 `;
 
 const FooterContent = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: space-around;
+  gap: 10px; /* Ajustamos el espacio entre elementos */
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
   }
 `;
 
 const Section = styled.div`
-  margin-bottom: 20px;
-  text-align: center;
-  color: yellow;
+  text-align: left;
+`;
 
-  @media (min-width: 768px) {
-    text-align: left;
-    margin-right: auto;
-    margin-bottom: 0;
-  }
-
-  h3, p {
-    color: white; // Cambiado a blanco
-  }
+const ContactItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px; 
 `;
 
 const CommonButton = styled.button`
-  background-color: #3498db;
+  background-color: #ff3300;
   color: #fff;
-  padding: 10px 15px;
+  padding: 6px 10px; 
   border: none;
+  border-radius: 5px;
   cursor: pointer;
-  margin-bottom: 10px;
-  font-size: 16px;
-`;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
 
-const StyledGitHubLink = styled.a`
-  display: inline-block;
-
-  img {
-    width: 30px;
+  &:hover {
+    background-color: #cc0000;
   }
 `;
 
@@ -71,27 +64,29 @@ const Footer = () => {
       <FooterContent>
         <Section>
           <h3>Contacto</h3>
-          <p>ZIP: x4352</p>
-          <p>Teléfono: 5479-2786</p>
-          <CommonButton onClick={handleCorreoButtonClick}>Contacto</CommonButton>
+          <ContactItem>
+            <FaEnvelope />
+            <p>GeneracionZ@contact.com</p>
+          </ContactItem>
+          <ContactItem>
+            <FaMapMarkerAlt />
+            <p>ZIP: x4352</p>
+          </ContactItem>
+          <ContactItem>
+            <FaPhone />
+            <p>5479-2786</p>
+          </ContactItem>
         </Section>
         <Section>
           <h3>Desarrollado por Emanuel Ayala</h3>
-          <CommonButton onClick={handleCorreoButtonClick}>Correo</CommonButton>
-          <p>
-            <StyledGitHubLink onClick={handleGitHubClick}>
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-                alt="GitHub Logo"
-                className="github-logo"
-              />
-            </StyledGitHubLink>
-          </p>
+          <CommonButton onClick={handleCorreoButtonClick}>Contactar</CommonButton>
+          <CommonButton onClick={handleDireccionButtonClick}>Ver Mapa</CommonButton>
+          <CommonButton onClick={handleGitHubClick}>
+            <FaGithub />
+            Ver en GitHub
+          </CommonButton>
         </Section>
       </FooterContent>
-      <Section>
-        <CommonButton onClick={handleDireccionButtonClick}>Mapa</CommonButton>
-      </Section>
       <p>&copy; 2024 Generación Z</p>
     </StyledFooter>
   );

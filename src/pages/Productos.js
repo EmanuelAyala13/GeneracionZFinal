@@ -62,7 +62,7 @@ const Productos = () => {
     <div>
       <Navbar />
       <h2>Nuestros Productos</h2>
-      <div>
+      <div className="button-container">
         <button onClick={handleMostrarTodosClick}>Mostrar Todo</button>
         {categorias.map((categoria) => (
           <button key={categoria} onClick={() => handleCategoriaClick(categoria)}>
@@ -77,7 +77,16 @@ const Productos = () => {
             <ProductCard
               key={producto.id}
               {...producto}
-              onAddToCart={() => setCartItems([...cartItems, { ...producto, quantity: 1 }])}
+              onAddToCart={() => {
+                const existingCartItemIndex = cartItems.findIndex((item) => item.id === producto.id);
+                if (existingCartItemIndex !== -1) {
+                  const updatedCartItems = [...cartItems];
+                  updatedCartItems[existingCartItemIndex].quantity++;
+                  setCartItems(updatedCartItems);
+                } else {
+                  setCartItems([...cartItems, { ...producto, quantity: 1 }]);
+                }
+              }}
             />
           ))}
         </div>

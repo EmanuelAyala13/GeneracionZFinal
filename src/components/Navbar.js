@@ -6,11 +6,10 @@ import Cart from './Cart';
 
 const StyledNav = styled.nav`
   position: fixed;
-  width: 100%;
+  width: 100%; 
   z-index: 1000;
   background-color: #333;
   top: 0;
-  margin-right: 20%;
   padding: 10px 20px;
   display: flex;
   justify-content: center;

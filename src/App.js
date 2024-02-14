@@ -35,10 +35,62 @@ const WelcomeContainer = styled.div`
   border-radius: 10px;
   margin-top: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 1s ease;
 
   @media screen and (max-width: 768px) {
     padding: 20px;
   }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`;
+
+const Title = styled.h1`
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+  animation: neon 1.5s ease infinite alternate;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: #4caf50;
+    bottom: -10px;
+    left: 0;
+    border-radius: 5px;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+  }
+
+  @keyframes neon {
+    from {
+      text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00;
+    }
+    to {
+      text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00, 0 0 20px #0ff, 0 0 30px #0ff, 0 0 40px #0ff, 0 0 55px #0ff, 0 0 75px #0ff;
+    }
+  }
+`;
+
+const Subtitle = styled.p`
+  font-size: 18px;
+  color: #666;
 `;
 
 const ExploreButton = styled.button`
@@ -61,6 +113,7 @@ const CategoryContainer = styled.div`
   justify-content: center;
   margin-top: 40px;
   color: white;
+  display: ${(props) => (props.showCategories ? 'flex' : 'none')};
 `;
 
 const CategoryBox = styled.div`
@@ -99,43 +152,23 @@ const ImageContainer = styled.div`
   }
 `;
 
-const ImageOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: black;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-
-  ${ImageContainer}:hover & {
-    opacity: 1;
-  }
-`;
-
-const ImageText = styled.p`
-  font-size: 20px;
-  margin-bottom: 15px;
-  padding: 15px;
-`;
-
 const HomePage = ({ cartItems, setCartItems }) => {
-  const [showCategories, setShowCategories] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [showCategories, setShowCategories] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState({
+    AGSSorteo: false,
+    MegaSorteo: false,
+    PcGamer: false,
+  });
 
   const handleToggleCategories = () => {
     setShowCategories(!showCategories);
-    setSelectedCategory(null);
   };
 
   const handleCategoryClick = (category) => {
-    setSelectedCategory(selectedCategory === category ? null : category);
+    setSelectedCategories((prevSelected) => ({
+      ...prevSelected,
+      [category]: !prevSelected[category],
+    }));
   };
 
   return (
@@ -145,44 +178,40 @@ const HomePage = ({ cartItems, setCartItems }) => {
       <ContentContainer>
         <Hero />
         <WelcomeContainer>
-          <h1>Bienvenidos</h1>
-          <p>Descubre las últimas tendencias y encuentra productos increíbles para la generación más avanzada.</p>
+          <Title>Bienvenido a nuestra tienda en línea</Title>
+          <Subtitle>Descubre una amplia selección de productos de alta calidad para gamers y entusiastas de la tecnología.</Subtitle>
           <ExploreButton onClick={handleToggleCategories}>
             {showCategories ? 'Ocultar Categorías' : 'Explorar'}
           </ExploreButton>
         </WelcomeContainer>
-        <CategoryContainer>
-          {showCategories && (
-            <>
-              <CategoryBox onClick={() => handleCategoryClick('AGSSorteo')}>
-                <h2>Próximamente</h2>
-                <p>Participa en nuestro sorteo AGS y gana increíbles premios.</p>
-                {selectedCategory === 'AGSSorteo' && (
-                  <ImageContainer isSelected onClick={() => handleCategoryClick(null)}>
-                    <img src={AGSSorteoImage} alt="AGSSorteo" />
-                  </ImageContainer>
-                )}
-              </CategoryBox>
-              <CategoryBox onClick={() => handleCategoryClick('MegaSorteo')}>
-                <h2>Próximamente</h2>
-                <p>Prepárate para el Mega Sorteo y gana grandes sorpresas.</p>
-                {selectedCategory === 'MegaSorteo' && (
-                  <ImageContainer isSelected onClick={() => handleCategoryClick(null)}>
-                    <img src={MegaSorteoImage} alt="MegaSorteo" />
-                  </ImageContainer>
-                )}
-              </CategoryBox>
-              <CategoryBox onClick={() => handleCategoryClick('PcGamer')}>
-                <h2>Próximamente</h2>
-                <p>Explora la nueva línea de PC Gamer con las últimas tecnologías.</p>
-                {selectedCategory === 'PcGamer' && (
-                  <ImageContainer isSelected onClick={() => handleCategoryClick(null)}>
-                    <img src={PcGamerImage} alt="PcGamer" />
-                  </ImageContainer>
-                )}
-              </CategoryBox>
-            </>
-          )}
+        <CategoryContainer showCategories={showCategories}>
+          <CategoryBox onClick={() => handleCategoryClick('AGSSorteo')}>
+            <h2>Próximamente</h2>
+            <p>Participa en nuestro sorteo AGS y gana increíbles premios.</p>
+            {selectedCategories.AGSSorteo && (
+              <ImageContainer isSelected onClick={() => handleCategoryClick('AGSSorteo')}>
+                <img src={AGSSorteoImage} alt="AGSSorteo" />
+              </ImageContainer>
+            )}
+          </CategoryBox>
+          <CategoryBox onClick={() => handleCategoryClick('MegaSorteo')}>
+            <h2>Próximamente</h2>
+            <p>Prepárate para el Mega Sorteo y gana grandes sorpresas.</p>
+            {selectedCategories.MegaSorteo && (
+              <ImageContainer isSelected onClick={() => handleCategoryClick('MegaSorteo')}>
+                <img src={MegaSorteoImage} alt="MegaSorteo" />
+              </ImageContainer>
+            )}
+          </CategoryBox>
+          <CategoryBox onClick={() => handleCategoryClick('PcGamer')}>
+            <h2>Próximamente</h2>
+            <p>Explora la nueva línea de PC Gamer con las últimas tecnologías.</p>
+            {selectedCategories.PcGamer && (
+              <ImageContainer isSelected onClick={() => handleCategoryClick('PcGamer')}>
+                <img src={PcGamerImage} alt="PcGamer" />
+              </ImageContainer>
+            )}
+          </CategoryBox>
         </CategoryContainer>
       </ContentContainer>
       <Footer />

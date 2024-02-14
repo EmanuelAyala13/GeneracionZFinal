@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import logo from '../images/logo.png';
+
+const neonFont = "'Roboto', sans-serif";
 
 const HeroContainer = styled.div`
   display: flex;
@@ -11,10 +13,10 @@ const HeroContainer = styled.div`
   text-align: center;
   padding: 20px;
   margin: 20px;
+  font-family: ${neonFont};
 `;
 
 const TextContainer = styled.div`
-  background-color: rgba(255, 255, 255, 0.8);
   padding: 20px;
   border-radius: 10px;
   display: flex;
@@ -23,66 +25,58 @@ const TextContainer = styled.div`
 `;
 
 const LogoImage = styled.img`
-  width: 80px;
+  width: 150px;
   height: auto;
   margin-bottom: 20px;
-  transition: transform 0.3s ease-in-out;
 `;
 
 const HeroText = styled.h1`
-  font-size: 2.5rem;
-  color: #333;
+  font-size: 3rem;
   margin: 0;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 1s ease-out forwards;
+  position: relative;
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  text-shadow: -2px -2px 2px rgba(0, 0, 0, 0.8); 
+
+  &:hover {
+    color: #0ff; 
+  }
 `;
 
 const Subtitle = styled.p`
   font-size: 1.5rem;
   color: red;
-  max-width: 300px;
   margin: 10px 0;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 1s ease-out 0.3s forwards;
-`;
+  font-family: ${neonFont};
+  animation: neonEffect 0.5s ease-in-out infinite alternate;
 
-const fadeInUp = css`
-  @keyframes fadeInUp {
+  @keyframes neonEffect {
     from {
-      opacity: 0;
-      transform: translateY(20px);
+      text-shadow: 0 0 5px #00ffbb, 0 0 10px #00ffbb, 0 0 15px #00ffbb, 0 0 20px #00ffbb, 0 0 25px #00ffbb, 0 0 30px #00ffbb, 0 0 35px #00ffbb;
     }
     to {
-      opacity: 1;
-      transform: translateY(0);
+      text-shadow: none;
     }
   }
 `;
 
-const responsiveStyles = css`
-  @media screen and (max-width: 768px) {
-    ${HeroContainer} {
-      height: auto;
-    }
-
-    ${TextContainer} {
-      padding: 10px;
-    }
-
-    ${HeroText} {
-      font-size: 2rem;
-    }
-
-    ${Subtitle} {
-      font-size: 1.2rem;
-    }
+const rotateAnimation = keyframes`
+  0% {
+    transform: rotate(0deg);
   }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+const LogoContainer = styled.div`
+  animation: ${rotateAnimation} 4s linear infinite;
 `;
 
 const Hero = () => {
   const [rotation, setRotation] = useState(0);
+  const [textColor, setTextColor] = useState('#fff'); 
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -103,17 +97,25 @@ const Hero = () => {
     };
   }, []);
 
+  const handleTextColorChange = () => {
+    const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16); 
+    setTextColor(randomColor);
+  };
+
   return (
-    <>
-      <style>{fadeInUp}</style>
-      <HeroContainer>
-        <TextContainer>
+    <HeroContainer>
+      <TextContainer>
+        <LogoContainer>
           <LogoImage src={logo} alt="Logo" style={{ transform: `rotate(${rotation}deg)` }} />
-          <HeroText>Bienvenido a nuestra tienda en línea</HeroText>
-          <Subtitle>Descubre una amplia selección de productos de alta calidad para gamers y entusiastas de la tecnología.</Subtitle>
-        </TextContainer>
-      </HeroContainer>
-    </>
+        </LogoContainer>
+        <HeroText style={{ color: textColor }} onClick={handleTextColorChange}>
+          Bienvenido a nuestra tienda en línea
+        </HeroText>
+        <Subtitle>
+          Descubre una amplia selección de productos de alta calidad para gamers y entusiastas de la tecnología.
+        </Subtitle>
+      </TextContainer>
+    </HeroContainer>
   );
 };
 
