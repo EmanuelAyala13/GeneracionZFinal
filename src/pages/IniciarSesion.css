@@ -70,7 +70,7 @@ h2 {
 }
 
 .logout-confirmation {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: #fff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
@@ -78,16 +78,27 @@ h2 {
   text-align: center;
   margin: 20px;
   animation: fadeIn 0.5s ease;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.logout-confirmation.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .logout-confirmation p {
   margin-bottom: 20px;
+  background-color: #fff; /* Fondo blanco */
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .logout-confirmation button {
-  background-color: #c0392b;
+  background-color: #e74c3c;
   color: #fff;
-  padding: 10px;
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -96,7 +107,7 @@ h2 {
 }
 
 .logout-confirmation button:hover {
-  background-color: #a93226;
+  background-color: #c0392b;
 }
 
 .logout-confirmation button:last-child {
@@ -105,6 +116,35 @@ h2 {
 
 .logout-confirmation button:last-child:hover {
   background-color: #2980b9;
+}
+
+.user-info {
+  background-color: #fff; /* Fondo blanco */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  width: 300px;
+  text-align: center;
+  margin: 20px;
+}
+
+.user-info p {
+  margin-bottom: 10px;
+}
+
+.user-info button {
+  background-color: #1a5276;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+.user-info button:hover {
+  background-color: #154360;
 }
 
 @keyframes fadeIn {
