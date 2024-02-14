@@ -1,130 +1,110 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './IniciarSesion.css';
 
-const IniciarSesion = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+function IniciarSesion() {
+  const [isLogin, setIsLogin] = useState(true);
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [isLogin, setIsLogin] = useState(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [registeredUsers, setRegisteredUsers] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [confirmLogout, setConfirmLogout] = useState(false);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem('isAuthenticated');
-    if (isAuthenticated === 'true') {
+    const usersFromLocalStorage = JSON.parse(localStorage.getItem('registeredUsers'));
+    if (usersFromLocalStorage) {
+      setRegisteredUsers(usersFromLocalStorage);
+    }
+
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (loggedInUser) {
+      const { name, lastName, email } = loggedInUser;
+      setName(name);
+      setLastName(lastName);
+      setEmail(email);
       setIsLoggedIn(true);
     }
   }, []);
 
   const handleLogin = () => {
-    const storedEmail = localStorage.getItem('email');
-    const storedPassword = localStorage.getItem('password');
-
-    if (email === storedEmail && password === storedPassword) {
-      toast.success('Inicio de sesión exitoso', {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
-      });
+    const user = registeredUsers.find(user => user.email === email && user.password === password);
+    if (user) {
+      toast.success('Inicio de sesión exitoso');
       setIsLoggedIn(true);
-      navigate('/');
+      localStorage.setItem('loggedInUser', JSON.stringify(user));
     } else {
-      toast.error('Correo o contraseña incorrectos', {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
-      });
+      toast.error('Correo o contraseña incorrectos.');
     }
   };
 
   const handleRegister = () => {
-    if (name.trim() === '' || lastName.trim() === '' || email.trim() === '' || password.trim() === '') {
-      toast.error('Por favor, completa todas las casillas', {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
-      });
+    const existingUser = registeredUsers.find(user => user.email === email);
+    if (existingUser) {
+      toast.error('Ya existe un usuario con ese correo. Por favor, utiliza otro correo.');
     } else {
-      localStorage.setItem('name', name);
-      localStorage.setItem('lastName', lastName);
-      localStorage.setItem('email', email);
-      localStorage.setItem('password', password);
-
-      toast.success('Registro exitoso', {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 3000,
-      });
-
-      localStorage.setItem('isAuthenticated', 'true');
+      const newUser = { name, lastName, email, password };
+      const updatedUsers = [...registeredUsers, newUser];
+      setRegisteredUsers(updatedUsers);
+      localStorage.setItem('registeredUsers', JSON.stringify(updatedUsers));
+      toast.success('Registro exitoso. Iniciando sesión automáticamente.');
       setIsLoggedIn(true);
-      navigate('/');
+      localStorage.setItem('loggedInUser', JSON.stringify(newUser));
     }
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('isAuthenticated');
     setIsLoggedIn(false);
-    setConfirmLogout(false);
+    localStorage.removeItem('loggedInUser');
   };
 
-  const confirmLogoutAction = () => {
-    handleLogout();
-    setConfirmLogout(false);
+  const toggleForm = () => {
+    setIsLogin(!isLogin);
   };
 
   return (
-    <div className="iniciar-sesion-container">
-      <Navbar />
+    <div>
+      <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+      <ToastContainer />
       {isLoggedIn ? (
-        <div className="user-info">
-          <p>Nombre: {localStorage.getItem('name')}</p>
-          <p>Correo: {localStorage.getItem('email')}</p>
-          <button className="logout-button" onClick={() => setConfirmLogout(true)}>Cerrar Sesión</button>
+        <div className="user-info-container">
+          <h2>Bienvenido, {name} {lastName}</h2>
+          <p>Correo: {email}</p>
+          <button className="logout-button" onClick={handleLogout}>Cerrar sesión</button>
         </div>
       ) : (
-        <div className="login-form">
-          <h2>{isLogin ? 'Iniciar Sesión' : 'Registrarse'}</h2>
-          <form>
-            {isLogin ? (
-              <>
-                <label>Correo Electrónico:</label>
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <label>Contraseña:</label>
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <button type="button" className="login-button" onClick={handleLogin}>Iniciar Sesión</button>
-                <button type="button" className="register-button" onClick={() => setIsLogin(false)}>Registrarse</button>
-              </>
-            ) : (
-              <>
-                <label>Nombre:</label>
-                <input type="text" onChange={(e) => setName(e.target.value)} />
-                <label>Apellido:</label>
-                <input type="text" onChange={(e) => setLastName(e.target.value)} />
-                <label>Correo Electrónico:</label>
-                <input type="email" onChange={(e) => setEmail(e.target.value)} />
-                <label>Contraseña:</label>
-                <input type="password" onChange={(e) => setPassword(e.target.value)} />
-                <button type="button" className="register-button" onClick={handleRegister}>Registrarse</button>
-                <button type="button" className="login-button" onClick={() => setIsLogin(true)}>Cancelar</button>
-              </>
-            )}
-          </form>
+        <div className="container"> 
+          {isLogin ? (
+            <div>
+              <h2>Iniciar Sesión</h2>
+              <form className="form-container"> 
+                <input type="email" className="input-field" placeholder="Correo" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <input type="password" className="input-field" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <button type="button" className="button" onClick={handleLogin}>Iniciar Sesión</button>
+              </form>
+              <div className="signup-link">
+                <p>¿No tienes una cuenta? <button className="link" onClick={toggleForm}>Regístrate aquí</button></p>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <h2>Registrarse</h2>
+              <form className="form-container"> 
+                <input type="text" className="input-field" placeholder="Nombre" value={name} onChange={(e) => setName(e.target.value)} />
+                <input type="text" className="input-field" placeholder="Apellido" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                <input type="email" className="input-field" placeholder="Correo" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <input type="password" className="input-field" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <button type="button" className="button" onClick={handleRegister}>Registrarse</button>
+              </form>
+              <p>¿Ya tienes una cuenta? <button className="link" onClick={toggleForm}>Iniciar sesión aquí</button></p>
+            </div>
+          )}
         </div>
       )}
-      {confirmLogout && (
-        <div className="logout-confirmation show">
-          <p>¿Estás seguro de cerrar sesión?</p>
-          <button className="confirm-logout" onClick={confirmLogoutAction}>Sí</button>
-          <button className="cancel-logout" onClick={() => setConfirmLogout(false)}>No</button>
-        </div>
-      )}
-      <ToastContainer />
     </div>
   );
-};
+}
 
 export default IniciarSesion;
