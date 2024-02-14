@@ -43,11 +43,12 @@ button {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); 
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  margin-right: 10px; /* Agregado para separar los botones */
 }
 
 button:hover {
-  background-color: #154360; 
+  background-color: #154360;
 }
 
 h2 {
@@ -66,6 +67,44 @@ h2 {
 
 .toggle-button:hover {
   background-color: #ccc;
+}
+
+.logout-confirmation {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  width: 300px;
+  text-align: center;
+  margin: 20px;
+  animation: fadeIn 0.5s ease;
+}
+
+.logout-confirmation p {
+  margin-bottom: 20px;
+}
+
+.logout-confirmation button {
+  background-color: #c0392b;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+.logout-confirmation button:hover {
+  background-color: #a93226;
+}
+
+.logout-confirmation button:last-child {
+  background-color: #3498db;
+}
+
+.logout-confirmation button:last-child:hover {
+  background-color: #2980b9;
 }
 
 @keyframes fadeIn {
