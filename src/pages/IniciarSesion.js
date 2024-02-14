@@ -51,8 +51,8 @@ const IniciarSesion = () => {
     } else {
       localStorage.setItem('name', name);
       localStorage.setItem('lastName', lastName);
-      localStorage.setItem('email', email); // Guardar el correo electrónico
-      localStorage.setItem('password', password); // Guardar la contraseña
+      localStorage.setItem('email', email);
+      localStorage.setItem('password', password);
 
       toast.success('Registro exitoso', {
         position: toast.POSITION.TOP_RIGHT,
@@ -67,8 +67,6 @@ const IniciarSesion = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('isAuthenticated');
-    localStorage.removeItem('email');
-    localStorage.removeItem('password');
     setIsLoggedIn(false);
     setConfirmLogout(false);
   };
