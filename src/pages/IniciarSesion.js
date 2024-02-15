@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { motion } from 'framer-motion';
 import './IniciarSesion.css';
 
 function IniciarSesion() {
@@ -13,7 +14,7 @@ function IniciarSesion() {
   const [registeredUsers, setRegisteredUsers] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
-  const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false); 
+  const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
 
   useEffect(() => {
     const usersFromLocalStorage = JSON.parse(localStorage.getItem('registeredUsers'));
@@ -61,35 +62,47 @@ function IniciarSesion() {
   };
 
   const handleLogout = () => {
-    setShowLogoutConfirmation(true); 
+    setShowLogoutConfirmation(true);
   };
 
   const confirmLogout = () => {
     setIsLoggedIn(false);
     setShowWelcomeMessage(false);
     localStorage.removeItem('loggedInUser');
-    setShowLogoutConfirmation(false); 
+    setShowLogoutConfirmation(false);
+    toast.info('Has cerrado sesión correctamente.');
   };
 
   const toggleForm = () => {
     setIsLogin(!isLogin);
   };
 
+  const buttonVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.3 } },
+    exit: { opacity: 0, scale: 0.8, transition: { duration: 0.3 } }
+  };
+
   return (
     <div>
       <Navbar isLoggedIn={isLoggedIn} />
       <ToastContainer />
-      <div className="container"> 
+      <div className="container">
         {showWelcomeMessage && (
           <div className="user-info-container">
             <h2>Bienvenido: {name} {lastName}</h2>
             <p>Correo: {email}</p>
             <div className="logout-container">
-              {showLogoutConfirmation ? ( 
-                <div>
+              {showLogoutConfirmation ? (
+                <motion.div
+                  variants={buttonVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                >
                   <button className="logout-button" onClick={confirmLogout}>Confirmar</button>
                   <button className="logout-button" onClick={() => setShowLogoutConfirmation(false)}>Cancelar</button>
-                </div>
+                </motion.div>
               ) : (
                 <button className="logout-button" onClick={handleLogout}>Cerrar sesión</button>
               )}
@@ -101,7 +114,7 @@ function IniciarSesion() {
             {isLogin ? (
               <div>
                 <h2>Iniciar Sesión</h2>
-                <form className="form-container"> 
+                <form className="form-container">
                   <input type="email" className="input-field" placeholder="Correo" value={email} onChange={(e) => setEmail(e.target.value)} />
                   <input type="password" className="input-field" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} />
                   <button type="button" className="button" onClick={handleLogin}>Iniciar Sesión</button>
@@ -113,7 +126,7 @@ function IniciarSesion() {
             ) : (
               <div>
                 <h2>Registrarse</h2>
-                <form className="form-container"> 
+                <form className="form-container">
                   <input type="text" className="input-field" placeholder="Nombre" value={name} onChange={(e) => setName(e.target.value)} />
                   <input type="text" className="input-field" placeholder="Apellido" value={lastName} onChange={(e) => setLastName(e.target.value)} />
                   <input type="email" className="input-field" placeholder="Correo" value={email} onChange={(e) => setEmail(e.target.value)} />
