@@ -152,6 +152,15 @@ const ImageContainer = styled.div`
   }
 `;
 
+const CategoryTitle = styled.h2`
+  color: #000; 
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8); 
+`;
+
+const CategoryDescription = styled.p`
+  color: #000; 
+`;
+
 const HomePage = ({ cartItems, setCartItems }) => {
   const [showCategories, setShowCategories] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState({
@@ -186,8 +195,8 @@ const HomePage = ({ cartItems, setCartItems }) => {
         </WelcomeContainer>
         <CategoryContainer showCategories={showCategories}>
           <CategoryBox onClick={() => handleCategoryClick('AGSSorteo')}>
-            <h2>Próximamente</h2>
-            <p>Participa en nuestro sorteo AGS y gana increíbles premios.</p>
+            <CategoryTitle>Próximamente</CategoryTitle>
+            <CategoryDescription>Participa en nuestro sorteo AGS y gana increíbles premios.</CategoryDescription>
             {selectedCategories.AGSSorteo && (
               <ImageContainer isSelected onClick={() => handleCategoryClick('AGSSorteo')}>
                 <img src={AGSSorteoImage} alt="AGSSorteo" />
@@ -195,8 +204,8 @@ const HomePage = ({ cartItems, setCartItems }) => {
             )}
           </CategoryBox>
           <CategoryBox onClick={() => handleCategoryClick('MegaSorteo')}>
-            <h2>Próximamente</h2>
-            <p>Prepárate para el Mega Sorteo y gana grandes sorpresas.</p>
+            <CategoryTitle>Próximamente</CategoryTitle>
+            <CategoryDescription>Prepárate para el Mega Sorteo y gana grandes sorpresas.</CategoryDescription>
             {selectedCategories.MegaSorteo && (
               <ImageContainer isSelected onClick={() => handleCategoryClick('MegaSorteo')}>
                 <img src={MegaSorteoImage} alt="MegaSorteo" />
@@ -204,8 +213,8 @@ const HomePage = ({ cartItems, setCartItems }) => {
             )}
           </CategoryBox>
           <CategoryBox onClick={() => handleCategoryClick('PcGamer')}>
-            <h2>Próximamente</h2>
-            <p>Explora la nueva línea de PC Gamer con las últimas tecnologías.</p>
+            <CategoryTitle>Próximamente</CategoryTitle>
+            <CategoryDescription>Explora la nueva línea de PC Gamer con las últimas tecnologías.</CategoryDescription>
             {selectedCategories.PcGamer && (
               <ImageContainer isSelected onClick={() => handleCategoryClick('PcGamer')}>
                 <img src={PcGamerImage} alt="PcGamer" />
