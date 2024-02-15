@@ -143,15 +143,18 @@ const ImageContainer = styled.div`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   margin-top: 20px;
-  height: ${(props) => (props.isSelected ? '300px' : '200px')};
+  height: 100%;
   transition: height 0.3s ease;
+  pointer-events: none; 
 
   img {
     width: 100%;
-    height: 100%; 
-    object-fit: cover; 
+    max-height: 100%; 
+    object-fit: cover;
+    pointer-events: none; 
   }
 `;
+
 
 const CategoryTitle = styled.h2`
   color: #000; 
