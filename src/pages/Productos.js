@@ -91,11 +91,11 @@ const Productos = () => {
           ))}
         </div>
         {productosFiltrados.length > ProductsPerPage && (
-          <div>
+          <div className="show-more-button-container">
             {!showMore ? (
-              <button onClick={handleShowMoreClick}>Mostrar Más</button>
+              <button className="show-more-button" onClick={handleShowMoreClick}>Mostrar Más</button>
             ) : (
-              <button onClick={handleShowLessClick}>Mostrar Menos</button>
+              <button className="show-more-button" onClick={handleShowLessClick}>Mostrar Menos</button>
             )}
           </div>
         )}
