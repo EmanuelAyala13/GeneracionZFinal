@@ -1,60 +1,76 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-  }
-  
-  .nosotros-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  h2 {
-    text-align: center;
-    margin-top: 60px;
-    margin-bottom: 30px;
-    color: #333;
-    font-size: 2.5em;
-    background-color: red;
-  }
-  
-  p {
-    margin-bottom: 20px;
-    color: #555;
-    font-size: 1.2em;
-    line-height: 1.6;
-    background-color: rgba(52, 152, 219, 0.2); 
-    padding: 10px; 
-    border-radius: 5px; 
-    transition: color 0.3s ease, background-color 0.3s ease;
-  }
-  
-  h2:hover {
-    color: #3498db;
-  }
-  
-  p:hover {
-    color: #3498db;
-    background-color: rgba(52, 152, 219, 0.4); 
-  }
-  
-  button {
-    background-color: #3498db;
-    color: #fff;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1.1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
+.Container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.Title {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 30px;
+  color: #ff0000;
+  font-size: 3em;
+  font-family: 'Arial Black', sans-serif;
+  text-shadow: 4px 4px 6px rgba(255, 255, 255, 0.5);
+  animation: fadeInDown 1s ease;
+}
+
+.Paragraph-container {
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  background-color: rgba(0, 0, 0, 0.5); 
+}
+
+.Paragraph {
+  color: #0400ff; 
+  font-size: 1.5em;
+  line-height: 1.6;
+  font-family: 'Arial', sans-serif;
+  animation: fadeInUp 1s ease;
+  background-color: rgba(5, 5, 5, 1); 
+}
+
+.EmailButton {
+  background-color: #3498db;
+  color: #fff;
+  padding: 20px 40px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  outline: none;
+  animation: fadeInUp 1s ease;
+
+  &:hover {
     background-color: #2980b9;
   }
-  
 
-  
+  &:focus {
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.5); 
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

@@ -98,7 +98,9 @@ function IniciarSesion() {
                 <input type="password" className="input-field" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} />
                 <button type="button" className="button" onClick={handleRegister}>Registrarse</button>
               </form>
-              <p>¿Ya tienes una cuenta? <button className="link" onClick={toggleForm}>Iniciar sesión aquí</button></p>
+              <div className="login-link">
+  <p>¿Ya tienes una cuenta? <button className="link" onClick={toggleForm}>Iniciar sesión aquí</button></p>
+</div>
             </div>
           )}
         </div>
