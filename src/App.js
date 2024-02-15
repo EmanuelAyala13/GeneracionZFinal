@@ -147,8 +147,9 @@ const ImageContainer = styled.div`
   transition: height 0.3s ease;
 
   img {
-    width: 100%; /* Establecer el ancho de la imagen al 100% */
-    height: auto;
+    width: 100%;
+    height: 100%; 
+    object-fit: cover; 
   }
 `;
 
