@@ -277,14 +277,18 @@ const Cart = ({ cartItems, setCartItems }) => {
   };
 
   const updateQuantity = (productId, newQuantity) => {
-    const updatedCart = cartItems.map((item) => {
-      if (item.id === productId) {
-        return { ...item, quantity: newQuantity }; 
-      } else {
-        return item;
-      }
-    });
-    setCartItems(updatedCart);
+    if (newQuantity <= 0) {
+      removeFromCart(productId);
+    } else {
+      const updatedCart = cartItems.map((item) => {
+        if (item.id === productId) {
+          return { ...item, quantity: newQuantity };
+        } else {
+          return item;
+        }
+      });
+      setCartItems(updatedCart);
+    }
   };
 
   return (
